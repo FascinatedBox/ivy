@@ -1,0 +1,9 @@
+CMakeCache.txt
+CMakeFiles/
+Makefile
+.mocuic/
+cmake_install.cmake
+ivyclient
+ivyserver
+qrc_*
+serverivy.qrc*
