@@ -41,7 +41,6 @@ IvyMainWindow::IvyMainWindow()
     setupMenuBar();
     setCentralWidget(w);
     resize(QGuiApplication::primaryScreen()->availableSize() * .3);
-    show();
 }
 
 void IvyMainWindow::setupMenuBar()
