@@ -76,8 +76,9 @@ int main(int argc, char **argv)
     QDBusConnection dbus = QDBusConnection::sessionBus();
 
     /* Don't need the server running just to give out help. */
-    if (strcmp(argv[1], "-h") == 0 ||
-        strcmp(argv[1], "--help") == 0)
+    if (argc > 1 &&
+        (strcmp(argv[1], "-h") == 0 ||
+         strcmp(argv[1], "--help") == 0))
         showHelpAndExit();
 
     if (!dbus.isConnected()) {
