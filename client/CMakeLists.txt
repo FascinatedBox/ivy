@@ -24,3 +24,10 @@ target_link_libraries(
     ivyclient
         Qt5::DBus
 )
+
+install(
+    TARGETS
+        ivyclient
+    DESTINATION
+        bin
+)

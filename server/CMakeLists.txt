@@ -68,3 +68,10 @@ target_link_libraries(
         Qt5::DBus
         Qt5::Widgets
 )
+
+install(
+    TARGETS
+        ivyserver
+    DESTINATION
+        bin
+)
