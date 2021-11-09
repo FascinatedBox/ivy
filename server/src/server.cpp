@@ -12,9 +12,9 @@ QString loadFile(QString path)
     return s;
 }
 
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
-    QApplication app(ac, av);
+    QApplication app(argc, argv);
     app.setApplicationName("ivy");
 
     IvyService i(&app);
