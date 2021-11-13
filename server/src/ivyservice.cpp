@@ -11,7 +11,7 @@ bool IvyService::tryRegisterService()
     return dbus.registerService(SERVICE_NAME);
 }
 
-void IvyService::start()
+void IvyService::start(bool minimized)
 {
     /* This is necessary because IvyAdaptor reads messages off of dbus and sends
        them over to IvyService. */
@@ -20,7 +20,11 @@ void IvyService::start()
     dbus.registerObject(PATH_NAME, this);
 
     mw = new IvyMainWindow();
-    mw->show();
+
+    if (minimized)
+        mw->showMinimized();
+    else
+        mw->show();
 }
 
 bool IvyService::open(QString path)

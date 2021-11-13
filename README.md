@@ -11,8 +11,14 @@ messages.
 
 ### Usage
 
-The server is built as `ivyserver` and is meant to be run without arguments. If
-an existing server is already running, then `ivyserver` will exit.
+The server is built as `ivyserver` and will show the main window when launched.
+Only one server can be running at a time. Valid arguments (`ivyserver --help`):
+
+```
+    --minimized:           Start with the main window minimized
+                           (Ignored if the server is running)
+    -h | --help:           Show help (this message) and exit
+```
 
 The client is built as `ivyclient` and sends messages by parsing arguments.
 Valid arguments (`ivyclient --help`):

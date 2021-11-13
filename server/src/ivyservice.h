@@ -12,7 +12,7 @@ class IvyService : public QObject
 public:
     IvyService(QObject *parent) {};
     bool tryRegisterService();
-    void start();
+    void start(bool minimized);
 
 public slots:
     bool open(QString path);
