@@ -1,9 +1,10 @@
 CMakeCache.txt
 CMakeFiles/
-Makefile
-.mocuic/
 cmake_install.cmake
+install_manifest.txt
 ivyclient
 ivyserver
+Makefile
+.mocuic/
 qrc_*
 serverivy.qrc.depends
