@@ -6,4 +6,4 @@ cmake_install.cmake
 ivyclient
 ivyserver
 qrc_*
-serverivy.qrc*
+serverivy.qrc.depends
