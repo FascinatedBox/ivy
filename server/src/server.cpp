@@ -48,7 +48,7 @@ int main(int argc, char **argv)
         strcmp(argv[1], "--minimized") == 0)
         minimized = true;
 
-    app.setStyleSheet(loadFile(":/style.css"));
+    app.setStyleSheet(loadFile(":/server.qss"));
     i.start(minimized);
 
     return app.exec();

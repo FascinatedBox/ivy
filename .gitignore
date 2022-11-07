@@ -6,5 +6,5 @@ ivyclient
 ivyserver
 Makefile
 .mocuic/
-qrc_*
-serverivy.qrc.depends
+qrc_server.cpp
+server.qrc.depends
