@@ -9,8 +9,8 @@
 
 typedef enum {
     opt_close,
-    opt_help,
-    opt_open,
+    opt_help = 'h',
+    opt_open = 'o',
     opt_scroll_down,
     opt_scroll_left,
     opt_scroll_right,
@@ -101,11 +101,9 @@ int main(int argc, char **argv)
             case opt_close:
                 iface->call("close");
                 return EXIT_SUCCESS;
-            case 'h':
             case opt_help:
                 showHelpAndExit();
                 break;
-            case 'o':
             case opt_open:
                 doOpen(optarg);
                 break;
