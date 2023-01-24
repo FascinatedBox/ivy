@@ -1,5 +1,6 @@
 #ifndef IVYSERVICE_H
 # define IVYSERVICE_H
+# include <QDBusInterface>
 # include <QObject>
 # include "ivymainwindow.h"
 # define INTERFACE_NAME "box.ivy.Ivy"
@@ -11,8 +12,11 @@ class IvyService : public QObject
 
 public:
     IvyService(QObject *parent) {};
-    bool tryRegisterService();
-    void start(bool minimized);
+    bool isRegistered() { return _registered; }
+    bool registerService();
+    void start();
+    void setMinimized(bool b) { _minimized = true; }
+    void show();
 
 public slots:
     bool open(QString path);
@@ -25,7 +29,10 @@ public slots:
     void zoomOut();
 
 private:
-    IvyMainWindow *mw;
+    IvyMainWindow *_mw;
+    QDBusInterface *_iface;
+    bool _registered;
+    bool _minimized;
 };
 
 #endif
