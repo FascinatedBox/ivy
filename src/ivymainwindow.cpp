@@ -70,8 +70,14 @@ void IvyMainWindow::setupMenuBar()
 
 void IvyMainWindow::scaleImage(double s)
 {
+    if (_pixmapStack.size() == 0)
+        return;
+
+    int row = _historyListWidget->row(_historyListWidget->currentItem());
+    QPixmap p = _pixmapStack.at(row);
+
     _scale *= s;
-    _picLabel->resize(_scale * _picLabel->pixmap()->size());
+    _picLabel->resize(_scale * p.size());
 
     adjustScrollBar(_scrollArea->horizontalScrollBar());
     adjustScrollBar(_scrollArea->verticalScrollBar());
