@@ -1,6 +1,6 @@
-#include "ivygraphicsview.h"
+#include "ivyscrollarea.h"
 
-void IvyGraphicsView::wheelEvent(QWheelEvent *e)
+void IvyScrollArea::wheelEvent(QWheelEvent *e)
 {
     if (e->modifiers() == Qt::ControlModifier) {
         int forward = e->angleDelta().y() > 0;
@@ -11,5 +11,5 @@ void IvyGraphicsView::wheelEvent(QWheelEvent *e)
             emit zoomedOut();
     }
     else
-        QGraphicsView::wheelEvent(e);
+        QScrollArea::wheelEvent(e);
 }

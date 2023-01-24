@@ -1,14 +1,14 @@
-#ifndef IVYGRAPHICSVIEW_H
-# define IVYGRAPHICSVIEW_H
-# include <QGraphicsView>
+#ifndef IVYSCROLLAREA_H
+# define IVYSCROLLAREA_H
+# include <QScrollArea>
 # include <QWheelEvent>
 
-class IvyGraphicsView : public QGraphicsView
+class IvyScrollArea : public QScrollArea
 {
     Q_OBJECT
 
 public:
-    IvyGraphicsView() {};
+    IvyScrollArea() {};
     void wheelEvent(QWheelEvent *e);
 
 signals:

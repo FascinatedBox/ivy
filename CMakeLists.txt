@@ -60,8 +60,8 @@ qt5_add_resources(
 add_executable(
     ivy
         ${service_wrapper}
-        src/ivygraphicsview.cpp
         src/ivymainwindow.cpp
+        src/ivyscrollarea.cpp
         src/ivyservice.cpp
         src/ivy.cpp
         ${IVY_DBUS_ADAPTER_FILE}

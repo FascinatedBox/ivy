@@ -1,12 +1,13 @@
 #ifndef IVYMAINWINDOW_H
 # define IVYMAINWINDOW_H
 # include <QAction>
+# include <QLabel>
 # include <QListWidget>
 # include <QGraphicsScene>
 # include <QGraphicsPixmapItem>
 # include <QMainWindow>
 
-# include "ivygraphicsview.h"
+# include "ivyscrollarea.h"
 
 class IvyMainWindow : public QMainWindow
 {
@@ -32,20 +33,22 @@ private slots:
 private:
     void addThumbnailForPixmap(const QPixmap *);
     bool loadFile(const QString &);
-    void scaleImageToView(const QPixmap *);
-    void setPixmap(const QPixmap &, QString);
     void setupMenuBar();
+    void scaleImage(double);
+    void adjustScrollBar(QScrollBar *);
 
+    QLabel *_picLabel;
     QListWidget *_historyListWidget;
-    IvyGraphicsView _view;
-    QGraphicsScene _scene;
-    QGraphicsPixmapItem _item;
-    QList<QPixmap> _pixmapStack;
-    QList<QString> _pathStack;
+    IvyScrollArea *_scrollArea;
 
     QAction *_resetZoomAct;
     QAction *_zoomInAct;
     QAction *_zoomOutAct;
+
+    QList<QPixmap> _pixmapStack;
+    QList<QString> _pathStack;
+
+    double _scale;
 };
 
 #endif

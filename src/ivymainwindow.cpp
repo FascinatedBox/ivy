@@ -14,26 +14,34 @@
 
 IvyMainWindow::IvyMainWindow()
 {
-    _view.setScene(&_scene);
-    _scene.addItem(&_item);
-    _view.setResizeAnchor(QGraphicsView::AnchorViewCenter);
+    _scale = 1.0;
 
     QWidget *w = new QWidget;
     QHBoxLayout *layout = new QHBoxLayout;
+
+    _picLabel = new QLabel;
+    _picLabel->setScaledContents(true);
+    _picLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+    _scrollArea = new IvyScrollArea;
+    _scrollArea->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    _scrollArea->setVisible(true);
+    _scrollArea->setWidget(_picLabel);
+    _scrollArea->setWidgetResizable(false);
 
     _historyListWidget = new QListWidget;
     _historyListWidget->setFixedWidth(70);
     _historyListWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     layout->addWidget(_historyListWidget);
-    layout->addWidget(&_view);
+    layout->addWidget(_scrollArea);
     w->setLayout(layout);
 
     QGuiApplication::setApplicationDisplayName(tr("Ivy"));
 
-    connect(&_view, &IvyGraphicsView::zoomedIn,
+    connect(_scrollArea, &IvyScrollArea::zoomedIn,
             this, &IvyMainWindow::zoomIn);
-    connect(&_view, &IvyGraphicsView::zoomedOut,
+    connect(_scrollArea, &IvyScrollArea::zoomedOut,
             this, &IvyMainWindow::zoomOut);
     connect(_historyListWidget, &QListWidget::currentRowChanged,
             this, &IvyMainWindow::onListRowChanged);
@@ -60,19 +68,38 @@ void IvyMainWindow::setupMenuBar()
     _resetZoomAct->setEnabled(false);
 }
 
+void IvyMainWindow::scaleImage(double s)
+{
+    _scale *= s;
+    _picLabel->resize(_scale * _picLabel->pixmap()->size());
+
+    adjustScrollBar(_scrollArea->horizontalScrollBar());
+    adjustScrollBar(_scrollArea->verticalScrollBar());
+
+    _zoomInAct->setEnabled(_scale < 3.0);
+    _zoomOutAct->setEnabled(_scale > 0.333);
+}
+
+void IvyMainWindow::adjustScrollBar(QScrollBar *scrollBar)
+{
+    scrollBar->setValue(int(_scale * scrollBar->value()
+                          + ((_scale - 1) * scrollBar->pageStep()/2)));
+}
+
 void IvyMainWindow::zoomIn()
 {
-    _view.scale(1.1, 1.1);
+    scaleImage(1.25);
 }
 
 void IvyMainWindow::zoomOut()
 {
-    _view.scale(.9, .9);
+    scaleImage(0.8);
 }
 
 void IvyMainWindow::resetZoom()
 {
-    _view.resetMatrix();
+    _picLabel->adjustSize();
+    _scale = 1.0;
 }
 
 void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
@@ -92,51 +119,14 @@ void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
     _historyListWidget->setCurrentItem(newItem);
 }
 
-void IvyMainWindow::scaleImageToView(const QPixmap *pixmap)
-{
-    /* Find out how to show as much of the image as possible without showing
-       scrollbars. */
-    QSize viewSize = _view.size();
-    QSize pixmapSize = pixmap->size();
-    double viewHeight = _view.height();
-    double viewWidth = _view.width();
-    double pixmapHeight = pixmapSize.height();
-    double pixmapWidth = pixmapSize.width();
-    double scale = 1.0;
-
-    while (pixmapHeight > viewHeight ||
-           pixmapWidth > viewWidth) {
-        pixmapWidth *= .9;
-        pixmapHeight *= .9;
-        scale *= .9;
-    }
-
-    if (scale != 1.0)
-        _view.scale(scale, scale);
-}
-
-void IvyMainWindow::setPixmap(const QPixmap &pixmap, QString path)
-{
-    _pixmapStack.append(pixmap);
-    _pathStack.append(path);
-    addThumbnailForPixmap(&pixmap);
-}
-
 void IvyMainWindow::onListRowChanged(int row)
 {
     QPixmap pixmap = _pixmapStack[row];
 
-    _item.setPixmap(pixmap);
-    _view.resetMatrix();
-
-    QSize s = pixmap.size();
-
-    /* Fix scrollbars in case old image was larger than this one. */
-    _view.setSceneRect(0, 0, s.width(), s.height());
-    scaleImageToView(&pixmap);
-
+    _scale = 1.0;
+    _picLabel->setPixmap(pixmap);
+    _picLabel->adjustSize();
     setWindowFilePath(_pathStack[row]);
-
     _zoomInAct->setEnabled(true);
     _zoomOutAct->setEnabled(true);
     _resetZoomAct->setEnabled(true);
@@ -144,20 +134,23 @@ void IvyMainWindow::onListRowChanged(int row)
 
 bool IvyMainWindow::busOpen(QString path)
 {
-    QScrollBar *vbar = _view.verticalScrollBar();
+    QScrollBar *vbar = _scrollArea->verticalScrollBar();
 
     QPixmap pixmap;
     bool ok = pixmap.load(path);
 
-    if (ok)
-        setPixmap(pixmap, path);
+    if (ok) {
+        _pixmapStack.append(pixmap);
+        _pathStack.append(path);
+        addThumbnailForPixmap(&pixmap);
+    }
 
     return ok;
 }
 
 void IvyMainWindow::busScrollDown()
 {
-    QScrollBar *vbar = _view.verticalScrollBar();
+    QScrollBar *vbar = _scrollArea->verticalScrollBar();
     int step = vbar->singleStep() * 3;
 
     vbar->setValue(vbar->value() + step);
@@ -165,7 +158,7 @@ void IvyMainWindow::busScrollDown()
 
 void IvyMainWindow::busScrollLeft()
 {
-    QScrollBar *hbar = _view.horizontalScrollBar();
+    QScrollBar *hbar = _scrollArea->horizontalScrollBar();
     int step = hbar->singleStep() * 3;
 
     hbar->setValue(hbar->value() - step);
@@ -173,7 +166,7 @@ void IvyMainWindow::busScrollLeft()
 
 void IvyMainWindow::busScrollRight()
 {
-    QScrollBar *hbar = _view.horizontalScrollBar();
+    QScrollBar *hbar = _scrollArea->horizontalScrollBar();
     int step = hbar->singleStep() * 3;
 
     hbar->setValue(hbar->value() + step);
@@ -181,7 +174,7 @@ void IvyMainWindow::busScrollRight()
 
 void IvyMainWindow::busScrollUp()
 {
-    QScrollBar *vbar = _view.verticalScrollBar();
+    QScrollBar *vbar = _scrollArea->verticalScrollBar();
     int step = vbar->singleStep() * 3;
 
     vbar->setValue(vbar->value() - step);
