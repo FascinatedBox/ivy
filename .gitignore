@@ -7,6 +7,6 @@ Makefile
 .mocuic/
 qrc_serverivy.cpp
 src/moc_*
+src/qrc_serverivy.cpp
 src/serveradaptor.*
 src/serverivy.qrc.depends
-src/qrc_serverivy.cpp
