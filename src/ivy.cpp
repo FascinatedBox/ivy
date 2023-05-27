@@ -25,6 +25,7 @@ struct option longopts[] = {
     { "scroll-up", no_argument, NULL, opt_scroll_up },
     { "zoom-in", no_argument, NULL, opt_zoom_in },
     { "zoom-out", no_argument, NULL, opt_zoom_out },
+    { NULL, 0, NULL, 0 },
 };
 
 QString loadFile(QString path)
