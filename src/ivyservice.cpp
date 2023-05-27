@@ -12,7 +12,7 @@ bool IvyService::registerService()
 {
     QDBusConnection dbus = QDBusConnection::sessionBus();
     _registered = dbus.registerService(SERVICE_NAME);
-    _minimized = true;
+    _minimized = false;
     _mw = nullptr;
 
     if (_registered) {

@@ -15,7 +15,7 @@ public:
     bool isRegistered() { return _registered; }
     bool registerService();
     void start();
-    void setMinimized(bool b) { _minimized = true; }
+    void setMinimized(bool b) { _minimized = b; }
     void show();
 
 public slots:
