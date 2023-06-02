@@ -12,6 +12,8 @@
 
 #include "ivymainwindow.h"
 
+#define SCALE_FACTOR 0.905
+
 IvyMainWindow::IvyMainWindow()
 {
     _scale = 1.0;
@@ -76,7 +78,7 @@ void IvyMainWindow::scaleImage(double s)
     int row = _historyListWidget->row(_historyListWidget->currentItem());
     QPixmap p = _pixmapStack.at(row);
 
-    _scale *= s;
+    _scale = s;
     _picLabel->resize(_scale * p.size());
 
     adjustScrollBar(_scrollArea->horizontalScrollBar());
@@ -94,12 +96,12 @@ void IvyMainWindow::adjustScrollBar(QScrollBar *scrollBar)
 
 void IvyMainWindow::zoomIn()
 {
-    scaleImage(1.25);
+    scaleImage(_scale * SCALE_FACTOR);
 }
 
 void IvyMainWindow::zoomOut()
 {
-    scaleImage(0.8);
+    scaleImage(_scale / SCALE_FACTOR);
 }
 
 void IvyMainWindow::resetZoom()
