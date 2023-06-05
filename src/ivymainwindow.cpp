@@ -106,8 +106,7 @@ void IvyMainWindow::zoomOut()
 
 void IvyMainWindow::resetZoom()
 {
-    _picLabel->adjustSize();
-    _scale = 1.0;
+    scaleImage(1.0);
 }
 
 void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
