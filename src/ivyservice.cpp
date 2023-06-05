@@ -38,6 +38,9 @@ void IvyService::start()
 
 void IvyService::show()
 {
+    if (_registered == false)
+        return;
+
     if (_minimized)
         _mw->showMinimized();
     else

@@ -35,6 +35,7 @@ private:
     bool loadFile(const QString &);
     void setupMenuBar();
     void scaleImage(double);
+    void scaleImageForView();
     void adjustScrollBar(QScrollBar *);
 
     QLabel *_picLabel;

@@ -113,6 +113,8 @@ int main(int argc, char **argv)
         }
     }
 
+    service.show();
+
     while (optind != argc) {
         service.open(argv[optind]);
         optind++;
@@ -121,6 +123,5 @@ int main(int argc, char **argv)
     if (service.isRegistered() == false)
         exit(EXIT_SUCCESS);
 
-    service.show();
     return app.exec();
 }

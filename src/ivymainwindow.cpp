@@ -126,17 +126,37 @@ void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
     _historyListWidget->setCurrentItem(newItem);
 }
 
+void IvyMainWindow::scaleImageForView()
+{
+    QPixmap pixmap = _pixmapStack[_historyListWidget->currentRow()];
+    int scrollW = _scrollArea->size().width();
+    int scrollH = _scrollArea->size().height();
+    int pixW = pixmap.size().width();
+    int pixH = pixmap.size().height();
+    int origW = pixW;
+    int origH = pixH;
+    double s = 1.0;
+
+    while (scrollH < pixH || scrollW < pixW) {
+        s *= SCALE_FACTOR;
+        pixW = origW * s;
+        pixH = origH * s;
+    }
+
+    scaleImage(s);
+}
+
 void IvyMainWindow::onListRowChanged(int row)
 {
     QPixmap pixmap = _pixmapStack[row];
 
     _scale = 1.0;
     _picLabel->setPixmap(pixmap);
-    _picLabel->adjustSize();
-    setWindowFilePath(_pathStack[row]);
     _zoomInAct->setEnabled(true);
     _zoomOutAct->setEnabled(true);
     _resetZoomAct->setEnabled(true);
+    scaleImageForView();
+    setWindowFilePath(_pathStack[row]);
 }
 
 bool IvyMainWindow::busOpen(QString path)
