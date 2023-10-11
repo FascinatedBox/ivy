@@ -96,12 +96,12 @@ void IvyMainWindow::adjustScrollBar(QScrollBar *scrollBar)
 
 void IvyMainWindow::zoomIn()
 {
-    scaleImage(_scale * SCALE_FACTOR);
+    scaleImage(_scale / SCALE_FACTOR);
 }
 
 void IvyMainWindow::zoomOut()
 {
-    scaleImage(_scale / SCALE_FACTOR);
+    scaleImage(_scale * SCALE_FACTOR);
 }
 
 void IvyMainWindow::resetZoom()
