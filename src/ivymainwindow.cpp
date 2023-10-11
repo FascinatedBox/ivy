@@ -21,6 +21,8 @@ IvyMainWindow::IvyMainWindow()
     QWidget *w = new QWidget;
     QHBoxLayout *layout = new QHBoxLayout;
 
+    _currentPixmap = NULL;
+
     _picLabel = new QLabel;
     _picLabel->setScaledContents(true);
     _picLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -75,11 +77,8 @@ void IvyMainWindow::scaleImage(double s)
     if (_pixmapStack.size() == 0)
         return;
 
-    int row = _historyListWidget->row(_historyListWidget->currentItem());
-    QPixmap p = _pixmapStack.at(row);
-
     _scale = s;
-    _picLabel->resize(_scale * p.size());
+    _picLabel->resize(_scale * _currentPixmap->size());
 
     adjustScrollBar(_scrollArea->horizontalScrollBar());
     adjustScrollBar(_scrollArea->verticalScrollBar());
@@ -148,10 +147,9 @@ void IvyMainWindow::scaleImageForView()
 
 void IvyMainWindow::onListRowChanged(int row)
 {
-    QPixmap pixmap = _pixmapStack[row];
-
+    _currentPixmap = &_pixmapStack[row];
     _scale = 1.0;
-    _picLabel->setPixmap(pixmap);
+    _picLabel->setPixmap(*_currentPixmap);
     _zoomInAct->setEnabled(true);
     _zoomOutAct->setEnabled(true);
     _resetZoomAct->setEnabled(true);

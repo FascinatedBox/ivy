@@ -46,6 +46,7 @@ private:
     QAction *_zoomInAct;
     QAction *_zoomOutAct;
 
+    QPixmap *_currentPixmap;
     QList<QPixmap> _pixmapStack;
     QList<QString> _pathStack;
 
