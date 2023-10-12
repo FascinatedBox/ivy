@@ -13,6 +13,8 @@
 #include "ivymainwindow.h"
 
 #define SCALE_FACTOR 0.905
+#define THUMBNAIL_SIZE 100
+#define THUMBNAIL_QSIZE QSize(100, 100)
 
 IvyMainWindow::IvyMainWindow()
 {
@@ -34,7 +36,7 @@ IvyMainWindow::IvyMainWindow()
     _scrollArea->setWidgetResizable(false);
 
     _historyListWidget = new QListWidget;
-    _historyListWidget->setFixedWidth(70);
+    _historyListWidget->setFixedWidth(THUMBNAIL_SIZE);
     _historyListWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     layout->addWidget(_historyListWidget);
@@ -111,23 +113,6 @@ void IvyMainWindow::resetZoom()
     scaleImage(1.0);
 }
 
-void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
-{
-    QPixmap thumbnail = pixmap->scaled(64, 64, Qt::KeepAspectRatio);
-    QLabel *l = new QLabel();
-
-    l->setAlignment(Qt::AlignCenter);
-    l->setPixmap(thumbnail);
-
-    QListWidgetItem *newItem = new QListWidgetItem();
-
-    newItem->setSizeHint(QSize(70,70));
-
-    _historyListWidget->addItem(newItem);
-    _historyListWidget->setItemWidget(newItem, l);
-    _historyListWidget->setCurrentItem(newItem);
-}
-
 double IvyMainWindow::imageScaleForArea(const QPixmap *pixmap, QSize area)
 {
     int areaW = area.width();
@@ -145,6 +130,33 @@ double IvyMainWindow::imageScaleForArea(const QPixmap *pixmap, QSize area)
     }
 
     return scale;
+}
+
+void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
+{
+    QLabel *l = new QLabel();
+    double thumbScale = imageScaleForArea(pixmap, THUMBNAIL_QSIZE);
+    int thumbWidth = pixmap->size().width() * thumbScale;
+    int thumbHeight = pixmap->size().height() * thumbScale;
+
+    QTransform transform;
+    transform.scale(thumbScale, thumbScale);
+
+    /* Using a smooth transformation produces a nicer image than simply asking
+       for a scaled image. */
+    QPixmap thumbnail = pixmap->transformed(transform,
+            Qt::SmoothTransformation);
+
+    l->setAlignment(Qt::AlignCenter);
+    l->setPixmap(thumbnail);
+
+    QListWidgetItem *newItem = new QListWidgetItem();
+
+    newItem->setSizeHint(THUMBNAIL_QSIZE);
+
+    _historyListWidget->addItem(newItem);
+    _historyListWidget->setItemWidget(newItem, l);
+    _historyListWidget->setCurrentItem(newItem);
 }
 
 void IvyMainWindow::onListRowChanged(int row)
