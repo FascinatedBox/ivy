@@ -32,6 +32,7 @@ private slots:
 
 private:
     void addThumbnailForPixmap(const QPixmap *);
+    double imageScaleForArea(const QPixmap *, QSize);
     bool loadFile(const QString &);
     void setupMenuBar();
     void scaleImage(double);

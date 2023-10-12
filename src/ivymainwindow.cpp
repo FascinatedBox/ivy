@@ -125,35 +125,34 @@ void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
     _historyListWidget->setCurrentItem(newItem);
 }
 
-void IvyMainWindow::scaleImageForView()
+double IvyMainWindow::imageScaleForArea(const QPixmap *pixmap, QSize area)
 {
-    QPixmap pixmap = _pixmapStack[_historyListWidget->currentRow()];
-    int scrollW = _scrollArea->size().width();
-    int scrollH = _scrollArea->size().height();
-    int pixW = pixmap.size().width();
-    int pixH = pixmap.size().height();
+    int areaW = area.width();
+    int areaH = area.height();
+    int pixW = pixmap->size().width();
+    int pixH = pixmap->size().height();
     int origW = pixW;
     int origH = pixH;
-    double s = 1.0;
+    double scale = 1.0;
 
-    while (scrollH < pixH || scrollW < pixW) {
-        s *= SCALE_FACTOR;
-        pixW = origW * s;
-        pixH = origH * s;
+    while (areaH < pixH || areaW < pixW) {
+        scale *= SCALE_FACTOR;
+        pixW = origW * scale;
+        pixH = origH * scale;
     }
 
-    scaleImage(s);
+    return scale;
 }
 
 void IvyMainWindow::onListRowChanged(int row)
 {
     _currentPixmap = &_pixmapStack[row];
-    _scale = 1.0;
+    _scale = imageScaleForArea(_currentPixmap, _scrollArea->size());
     _picLabel->setPixmap(*_currentPixmap);
     _zoomInAct->setEnabled(true);
     _zoomOutAct->setEnabled(true);
     _resetZoomAct->setEnabled(true);
-    scaleImageForView();
+    scaleImage(_scale);
     setWindowFilePath(_pathStack[row]);
 }
 
