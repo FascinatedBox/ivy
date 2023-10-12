@@ -95,12 +95,15 @@ void IvyMainWindow::adjustScrollBar(QScrollBar *scrollBar)
 
 void IvyMainWindow::zoomIn()
 {
-    scaleImage(_scale / SCALE_FACTOR);
+    /* The if check is for mouse wheel events that are forwarded here. */
+    if (_zoomInAct->isEnabled())
+        scaleImage(_scale / SCALE_FACTOR);
 }
 
 void IvyMainWindow::zoomOut()
 {
-    scaleImage(_scale * SCALE_FACTOR);
+    if (_zoomOutAct->isEnabled())
+        scaleImage(_scale * SCALE_FACTOR);
 }
 
 void IvyMainWindow::resetZoom()
