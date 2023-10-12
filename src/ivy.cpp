@@ -1,5 +1,6 @@
 #include <getopt.h>
 #include <QApplication>
+#include <QDir>
 
 #include "ivyservice.h"
 
@@ -115,7 +116,12 @@ int main(int argc, char **argv)
 
     service.show();
 
+    QString currentDirPath = QDir::currentPath();
+
     while (optind != argc) {
+        QString s = argv[optind];
+        QString path = currentDirPath + s;
+
         service.open(argv[optind]);
         optind++;
     }
