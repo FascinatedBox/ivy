@@ -1,14 +1,8 @@
-#include <QLabel>
-#include <QFileDialog>
 #include <QGuiApplication>
 #include <QHBoxLayout>
-#include <QImageReader>
-#include <QImageWriter>
 #include <QMenuBar>
-#include <QMessageBox>
 #include <QScreen>
 #include <QScrollBar>
-#include <QStandardPaths>
 
 #include "ivymainwindow.h"
 

@@ -3,8 +3,6 @@
 # include <QAction>
 # include <QLabel>
 # include <QListWidget>
-# include <QGraphicsScene>
-# include <QGraphicsPixmapItem>
 # include <QMainWindow>
 
 # include "ivyscrollarea.h"

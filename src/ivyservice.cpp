@@ -1,7 +1,4 @@
-#include <QDBusConnection>
-
-#include <ivyadaptor.h>
-
+#include "ivyadaptor.h"
 #include "ivyservice.h"
 
 #define SERVICE_NAME   "box.ivy.IvyServer"

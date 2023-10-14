@@ -1,8 +1,9 @@
 #ifndef IVYSERVICE_H
 # define IVYSERVICE_H
 # include <QDBusInterface>
-# include <QObject>
+
 # include "ivymainwindow.h"
+
 # define INTERFACE_NAME "box.ivy.Ivy"
 
 class IvyService : public QObject
