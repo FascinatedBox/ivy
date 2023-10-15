@@ -120,9 +120,9 @@ int main(int argc, char **argv)
 
     while (optind != argc) {
         QString s = argv[optind];
-        QString path = currentDirPath + s;
+        QString path = currentDirPath + "/" + s;
 
-        service.open(argv[optind]);
+        service.open(path);
         optind++;
     }
 
