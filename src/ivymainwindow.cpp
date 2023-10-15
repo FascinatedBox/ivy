@@ -66,6 +66,10 @@ void IvyMainWindow::setupMenuBar()
     _resetZoomAct = viewMenu->addAction(tr("Reset Zoom"), this, &IvyMainWindow::resetZoom);
     _resetZoomAct->setShortcut(tr("r"));
     _resetZoomAct->setEnabled(false);
+
+    _fitToWindowAct = viewMenu->addAction(tr("Fit To Window"), this, &IvyMainWindow::fitToWindow);
+    _fitToWindowAct->setShortcut(tr("f"));
+    _fitToWindowAct->setEnabled(false);
 }
 
 void IvyMainWindow::scaleImage(double s)
@@ -100,6 +104,12 @@ void IvyMainWindow::zoomOut()
 {
     if (_zoomOutAct->isEnabled())
         scaleImage(_scale * SCALE_FACTOR);
+}
+
+void IvyMainWindow::fitToWindow()
+{
+    _scale = imageScaleForArea(_currentPixmap, _scrollArea->size());
+    scaleImage(_scale);
 }
 
 void IvyMainWindow::resetZoom()
@@ -161,6 +171,7 @@ void IvyMainWindow::onListRowChanged(int row)
     _zoomInAct->setEnabled(true);
     _zoomOutAct->setEnabled(true);
     _resetZoomAct->setEnabled(true);
+    _fitToWindowAct->setEnabled(true);
     scaleImage(_scale);
     setWindowFilePath(_pathStack[row]);
 }

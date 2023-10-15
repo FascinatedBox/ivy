@@ -26,6 +26,7 @@ public slots:
 
 private slots:
     void resetZoom();
+    void fitToWindow();
     void onListRowChanged(int);
 
 private:
@@ -41,6 +42,7 @@ private:
     QListWidget *_historyListWidget;
     IvyScrollArea *_scrollArea;
 
+    QAction *_fitToWindowAct;
     QAction *_resetZoomAct;
     QAction *_zoomInAct;
     QAction *_zoomOutAct;
