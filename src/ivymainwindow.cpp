@@ -12,6 +12,7 @@
 
 IvyMainWindow::IvyMainWindow()
 {
+    _emptyPixmap = QPixmap();
     _scale = 1.0;
 
     QWidget *w = new QWidget;
@@ -43,7 +44,7 @@ IvyMainWindow::IvyMainWindow()
             this, &IvyMainWindow::zoomIn);
     connect(_scrollArea, &IvyScrollArea::zoomedOut,
             this, &IvyMainWindow::zoomOut);
-    connect(_historyListWidget, &QListWidget::currentRowChanged,
+    connect(_historyListWidget, &QListWidget::currentItemChanged,
             this, &IvyMainWindow::onListRowChanged);
 
     setupMenuBar();
@@ -70,6 +71,12 @@ void IvyMainWindow::setupMenuBar()
     _fitToWindowAct = viewMenu->addAction(tr("Fit To Window"), this, &IvyMainWindow::fitToWindow);
     _fitToWindowAct->setShortcut(tr("f"));
     _fitToWindowAct->setEnabled(false);
+
+    viewMenu->addSeparator();
+
+    _removeAct = viewMenu->addAction(tr("Remove From List"), this, &IvyMainWindow::removeFromList);
+    _removeAct->setShortcut(QKeySequence::Delete);
+    _removeAct->setEnabled(false);
 }
 
 void IvyMainWindow::scaleImage(double s)
@@ -110,6 +117,19 @@ void IvyMainWindow::fitToWindow()
 {
     _scale = imageScaleForArea(_currentPixmap, _scrollArea->size());
     scaleImage(_scale);
+}
+
+void IvyMainWindow::removeFromList()
+{
+    if (_removeAct->isEnabled()) {
+        int row = _historyListWidget->currentRow();
+
+        // The item has to be deleted first or the item change slot will have
+        // the stacks at a different length than the preview list.
+        delete _historyListWidget->takeItem(row);
+        _pixmapStack.removeAt(row);
+        _pathStack.removeAt(row);
+    }
 }
 
 void IvyMainWindow::resetZoom()
@@ -163,17 +183,32 @@ void IvyMainWindow::addThumbnailForPixmap(const QPixmap *pixmap)
     _historyListWidget->setCurrentItem(newItem);
 }
 
-void IvyMainWindow::onListRowChanged(int row)
+void IvyMainWindow::onListRowChanged(QListWidgetItem *current,
+        QListWidgetItem *prev)
 {
-    _currentPixmap = &_pixmapStack[row];
-    _scale = imageScaleForArea(_currentPixmap, _scrollArea->size());
+    _zoomInAct->setEnabled(current != nullptr);
+    _zoomOutAct->setEnabled(current != nullptr);
+    _resetZoomAct->setEnabled(current != nullptr);
+    _fitToWindowAct->setEnabled(current != nullptr);
+    _removeAct->setEnabled(current != nullptr);
+
+    QString path;
+
+    if (current != nullptr) {
+        int currentRow = _historyListWidget->row(current);
+
+        _currentPixmap = &_pixmapStack[currentRow];
+        _scale = imageScaleForArea(_currentPixmap, _scrollArea->size());
+        scaleImage(_scale);
+        path = _pathStack[currentRow];
+    }
+    else {
+        _currentPixmap = &_emptyPixmap;
+        path = "";
+    }
+
     _picLabel->setPixmap(*_currentPixmap);
-    _zoomInAct->setEnabled(true);
-    _zoomOutAct->setEnabled(true);
-    _resetZoomAct->setEnabled(true);
-    _fitToWindowAct->setEnabled(true);
-    scaleImage(_scale);
-    setWindowFilePath(_pathStack[row]);
+    setWindowFilePath(path);
 }
 
 bool IvyMainWindow::busOpen(QString path)

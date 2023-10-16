@@ -25,9 +25,10 @@ public slots:
     void zoomOut();
 
 private slots:
+    void removeFromList();
     void resetZoom();
     void fitToWindow();
-    void onListRowChanged(int);
+    void onListRowChanged(QListWidgetItem *, QListWidgetItem *);
 
 private:
     void addThumbnailForPixmap(const QPixmap *);
@@ -43,10 +44,12 @@ private:
     IvyScrollArea *_scrollArea;
 
     QAction *_fitToWindowAct;
+    QAction *_removeAct;
     QAction *_resetZoomAct;
     QAction *_zoomInAct;
     QAction *_zoomOutAct;
 
+    QPixmap _emptyPixmap;
     QPixmap *_currentPixmap;
     QList<QPixmap> _pixmapStack;
     QList<QString> _pathStack;
