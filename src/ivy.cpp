@@ -120,7 +120,10 @@ int main(int argc, char **argv)
 
     while (optind != argc) {
         QString s = argv[optind];
-        QString path = currentDirPath + "/" + s;
+        QString path = s;
+
+        if (QDir::isAbsolutePath(s) == false)
+            path = currentDirPath + "/" + path;
 
         service.open(path);
         optind++;
