@@ -21,7 +21,7 @@ IvyMainWindow QListWidget::item:!selected {
 }
 
 
-IvyMainWindow QGraphicsView {
+IvyMainWindow IvyScrollArea {
     background-color: #353535;
     border: none;
 }
@@ -48,42 +48,47 @@ IvyMainWindow QMenuBar::item:selected {
 }
 
 
-IvyGraphicsView QScrollBar:horizontal,
-IvyGraphicsView QScrollBar:vertical {
+IvyScrollArea QLabel {
+    background: #353535;
+}
+
+
+IvyScrollArea QScrollBar:horizontal,
+IvyScrollArea QScrollBar:vertical {
     background: #2c2c30;
     border-radius: 3px;
 }
-IvyGraphicsView QScrollBar::handle:horizontal,
-IvyGraphicsView QScrollBar::handle:vertical {
+IvyScrollArea QScrollBar::handle:horizontal,
+IvyScrollArea QScrollBar::handle:vertical {
     background: #565656;
     border: 1px solid #565656;
     border-radius: 3px;
 }
-IvyGraphicsView QScrollBar::add-line:horizontal,
-IvyGraphicsView QScrollBar::sub-line:horizontal,
-IvyGraphicsView QScrollBar::add-line:vertical,
-IvyGraphicsView QScrollBar::sub-line:vertical {
+IvyScrollArea QScrollBar::add-line:horizontal,
+IvyScrollArea QScrollBar::sub-line:horizontal,
+IvyScrollArea QScrollBar::add-line:vertical,
+IvyScrollArea QScrollBar::sub-line:vertical {
     height: 0px;
 }
 
 
-IvyGraphicsView QScrollBar:horizontal {
+IvyScrollArea QScrollBar:horizontal {
     height: 12px;
     margin: 4px 4px 0px 0px;
     border-left: 1px solid #2c2c30;
     border-right: 1px solid #2c2c30;
 }
-IvyGraphicsView QScrollBar::handle:horizontal {
+IvyScrollArea QScrollBar::handle:horizontal {
     min-width: 20px;
 }
 
 
-IvyGraphicsView QScrollBar:vertical {
+IvyScrollArea QScrollBar:vertical {
     width: 12px;
     margin: 0px 0px 4px 4px;
     border-bottom: 1px solid #2c2c30;
     border-top: 1px solid #2c2c30;
 }
-IvyGraphicsView QScrollBar::handle:vertical {
+IvyScrollArea QScrollBar::handle:vertical {
     min-height: 20px;
 }
