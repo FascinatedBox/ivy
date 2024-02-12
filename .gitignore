@@ -5,8 +5,6 @@ install_manifest.txt
 ivy
 Makefile
 .mocuic/
-qrc_serverivy.cpp
+qrc_resources.cpp
 src/moc_*
-src/qrc_serverivy.cpp
-src/serveradaptor.*
-src/serverivy.qrc.depends
+src/resources.qrc.depends

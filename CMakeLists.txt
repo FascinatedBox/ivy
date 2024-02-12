@@ -54,7 +54,7 @@ set_property(
 
 qt5_add_resources(
     RCC_SOURCES
-    src/serverivy.qrc
+    src/resources.qrc
 )
 
 add_executable(

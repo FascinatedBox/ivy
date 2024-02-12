@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     service.registerService();
 
     if (service.isRegistered()) {
-        app.setStyleSheet(loadFile(":/style.css"));
+        app.setStyleSheet(loadFile(":/style.qss"));
         service.start();
     }
 
