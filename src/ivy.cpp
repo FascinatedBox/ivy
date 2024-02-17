@@ -6,7 +6,6 @@
 
 typedef enum {
     opt_close,
-    opt_help = 'h',
     opt_minimized,
     opt_scroll_down,
     opt_scroll_left,
@@ -14,6 +13,7 @@ typedef enum {
     opt_scroll_up,
     opt_zoom_in,
     opt_zoom_out,
+    opt_help = 'h',
 } optlist_t;
 
 struct option longopts[] = {
