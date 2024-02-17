@@ -54,58 +54,19 @@ bool IvyService::open(QString path)
     }
 }
 
-void IvyService::quit()
-{
-    if (_registered)
-        _mw->close();
-    else
-        _iface->call("quit");
+#define SERVICE_FN(name, window_fn) \
+void IvyService::name() \
+{ \
+    if (_registered) \
+        _mw->window_fn(); \
+    else \
+        _iface->call(#name); \
 }
 
-void IvyService::scrollDown()
-{
-    if (_registered)
-        _mw->busScrollDown();
-    else
-        _iface->call("scrollDown");
-}
-
-void IvyService::scrollLeft()
-{
-    if (_registered)
-        _mw->busScrollLeft();
-    else
-        _iface->call("scrollLeft");
-}
-
-void IvyService::scrollRight()
-{
-    if (_registered)
-        _mw->busScrollRight();
-    else
-        _iface->call("scrollRight");
-}
-
-void IvyService::scrollUp()
-{
-    if (_registered)
-        _mw->busScrollUp();
-    else
-        _iface->call("scrollUp");
-}
-
-void IvyService::zoomIn()
-{
-    if (_registered)
-        _mw->zoomIn();
-    else
-        _iface->call("zoomIn");
-}
-
-void IvyService::zoomOut()
-{
-    if (_registered)
-        _mw->zoomOut();
-    else
-        _iface->call("zoomDown");
-}
+SERVICE_FN(quit,        close)
+SERVICE_FN(scrollDown,  busScrollDown)
+SERVICE_FN(scrollLeft,  busScrollLeft)
+SERVICE_FN(scrollRight, busScrollRight)
+SERVICE_FN(scrollUp,    busScrollUp)
+SERVICE_FN(zoomIn,      zoomIn)
+SERVICE_FN(zoomOut,     zoomOut)
