@@ -54,12 +54,12 @@ bool IvyService::open(QString path)
     }
 }
 
-void IvyService::close()
+void IvyService::quit()
 {
     if (_registered)
         _mw->close();
     else
-        _iface->call("close");
+        _iface->call("quit");
 }
 
 void IvyService::scrollDown()

@@ -21,7 +21,7 @@ public:
 
 public slots:
     bool open(QString path);
-    void close();
+    void quit();
     void scrollDown();
     void scrollLeft();
     void scrollRight();

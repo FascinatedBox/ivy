@@ -11,14 +11,14 @@ Ivy is a basic image viewer that exports a small dbus interface.
 ivy [options] [<actions>...] files...
 
 Options:
-    --minimized            Start the viewer minimized
+    --minimized            Start the display minimized
 
 Actions:
-    --close:               Close the viewer and quit.
-    --scroll-<DIRECTION>:  Scroll in a particular direction
+    -h, --help             Display this help and exit
+    --quit                 Close the display and quit
+    --scroll-<DIRECTION>   Scroll in a particular direction
                            (left, up, right, down)
-    --zoom-<in|out>:       Adjust the zoom on the image
-    -h | --help:           Show help (this message) and exit
+    --zoom-<in|out>        Adjust the zoom on the image
 ```
 
 If `ivy` is launched and the viewer is not present, then the viewer window is

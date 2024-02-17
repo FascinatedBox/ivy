@@ -5,8 +5,8 @@
 #include "ivyservice.h"
 
 typedef enum {
-    opt_close,
     opt_minimized,
+    opt_quit,
     opt_scroll_down,
     opt_scroll_left,
     opt_scroll_right,
@@ -17,7 +17,7 @@ typedef enum {
 } optlist_t;
 
 struct option longopts[] = {
-    { "close", no_argument, NULL, opt_close },
+    { "quit", no_argument, NULL, opt_quit },
     { "help", no_argument, NULL, opt_help },
     { "minimized", no_argument, NULL, opt_minimized },
     { "scroll-down", no_argument, NULL, opt_scroll_down },
@@ -48,11 +48,11 @@ Options:
     --minimized            Start the display minimized
 
 Actions:
-    --close:               Close the display and quit.
-    --scroll-<DIRECTION>:  Scroll in a particular direction
+    -h, --help             Display this help and exit
+    --quit                 Close the display and quit
+    --scroll-<DIRECTION>   Scroll in a particular direction
                            (left, up, right, down)
-    --zoom-<in|out>:       Adjust the zoom on the image
-    -h | --help:           Show help (this message) and exit
+    --zoom-<in|out>        Adjust the zoom on the image
 )"
     );
     exit(EXIT_SUCCESS);
@@ -84,15 +84,15 @@ int main(int argc, char **argv)
     while ((c = getopt_long_only(argc, argv, "h",
                                  longopts, &option_index)) != -1) {
         switch (c) {
-            case opt_close:
-                service.close();
-                return EXIT_SUCCESS;
             case opt_help:
                 showHelpAndExit();
                 break;
             case opt_minimized:
                 service.setMinimized(true);
                 break;
+            case opt_quit:
+                service.quit();
+                return EXIT_SUCCESS;
             case opt_scroll_down:
                 service.scrollDown();
                 break;
