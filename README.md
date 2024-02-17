@@ -36,14 +36,11 @@ have a hotkey execute a script that reloads the viewer with a screenshot.
 **Example project**: This project was supposed to be an example of a basic
 program that uses Qt's dbus.
 
-## Caveats
+## Caveat
 
 * Executing `make clean` then `make` results in `moc` complaining that it cannot
   open an options file that begins with `@`. `cmake .` on the project root
   directory fixes the issue.
-
-* Thumbnail images are not as high quality as they could be. They are, however,
-  sufficient for my use case.
 
 ### New Messages
 
