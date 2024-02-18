@@ -1,6 +1,8 @@
 ivy
 ===
 
+![Demo](resources/demo.gif)
+
 ### Overview
 
 Ivy is a basic image viewer that exports a small dbus interface.
