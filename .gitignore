@@ -6,5 +6,6 @@ ivy
 Makefile
 .mocuic/
 qrc_resources.cpp
-src/moc_*
+src/moc_ivyservice.cpp
+src/moc_ivyservice.cpp_parameters
 src/resources.qrc.depends

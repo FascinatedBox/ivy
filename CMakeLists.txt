@@ -1,39 +1,25 @@
-cmake_minimum_required(VERSION 3.5)
 project(ivy)
+cmake_minimum_required(VERSION 3.5.0)
+
+find_package(
+    Qt5
+    COMPONENTS
+        DBus
+        Widgets
+    REQUIRED
+)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
-set(IVY_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
-
-find_package(
-    Qt5
-    REQUIRED
-        Core
-        DBus
-        Widgets
-)
-
-set(MOCUIC_DIR ${CMAKE_CURRENT_BINARY_DIR}/.mocuic)
-
-find_package(
-    Qt5
-    REQUIRED
-        Core
-        DBus
-        Widgets
-)
-
 set(IVY_XML_FILE .mocuic/box.ivy.server.xml)
 set(MOCUIC_DIR ${CMAKE_CURRENT_BINARY_DIR}/.mocuic)
 
 qt5_generate_dbus_interface(
     src/ivyservice.h
     ${IVY_XML_FILE}
-    OPTIONS -A
+    OPTIONS
+        -A
 )
-
 qt5_add_dbus_adaptor(
     IVY_DBUS_ADAPTER_FILE
     ${CMAKE_CURRENT_BINARY_DIR}/${IVY_XML_FILE}
@@ -41,9 +27,10 @@ qt5_add_dbus_adaptor(
         IvyService
         ".mocuic/ivyadaptor"
 )
-
-qt5_wrap_cpp(service_wrapper src/ivyservice.h)
-
+qt5_wrap_cpp(
+    SERVICE_WRAPPER
+        src/ivyservice.h
+)
 set_property(
     SOURCE
         ${MOCUIC_DIR}/ivyadaptor.cpp
@@ -54,18 +41,26 @@ set_property(
 
 qt5_add_resources(
     RCC_SOURCES
-    src/resources.qrc
+        src/resources.qrc
 )
 
 add_executable(
     ivy
-        ${service_wrapper}
+        src/ivy.cpp
         src/ivymainwindow.cpp
         src/ivyscrollarea.cpp
         src/ivyservice.cpp
-        src/ivy.cpp
         ${IVY_DBUS_ADAPTER_FILE}
         ${RCC_SOURCES}
+        ${SERVICE_WRAPPER}
+)
+
+target_include_directories(
+    ivy
+    PRIVATE
+        ./
+        src/
+        ${MOCUIC_DIR}
 )
 
 set_target_properties(
@@ -73,15 +68,6 @@ set_target_properties(
     PROPERTIES
         AUTOGEN_BUILD_DIR
             ${MOCUIC_DIR}
-        RUNTIME_OUTPUT_DIRECTORY
-            ${IVY_BINARY_DIR}
-)
-
-target_include_directories(
-    ivy
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${MOCUIC_DIR}
 )
 
 target_link_libraries(
