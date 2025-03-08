@@ -32,6 +32,7 @@ IvyMainWindow::IvyMainWindow()
 
     _historyListWidget = new QListWidget;
     _historyListWidget->setFixedWidth(THUMBNAIL_SIZE);
+    _historyListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     _historyListWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     layout->addWidget(_historyListWidget);
