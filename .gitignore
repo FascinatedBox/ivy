@@ -5,6 +5,7 @@ install_manifest.txt
 ivy
 Makefile
 .mocuic/
+.qt/
 qrc_resources.cpp
 src/moc_ivyservice.cpp
 src/moc_ivyservice.cpp_parameters

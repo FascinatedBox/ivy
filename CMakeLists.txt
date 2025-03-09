@@ -1,8 +1,8 @@
-project(ivy)
 cmake_minimum_required(VERSION 3.5.0)
+project(ivy)
 
 find_package(
-    Qt5
+    Qt6
     COMPONENTS
         DBus
         Widgets
@@ -10,24 +10,23 @@ find_package(
 )
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 set(IVY_XML_FILE .mocuic/box.ivy.server.xml)
 set(MOCUIC_DIR ${CMAKE_CURRENT_BINARY_DIR}/.mocuic)
 
-qt5_generate_dbus_interface(
+qt6_generate_dbus_interface(
     src/ivyservice.h
     ${IVY_XML_FILE}
     OPTIONS
         -A
 )
-qt5_add_dbus_adaptor(
+qt6_add_dbus_adaptor(
     IVY_DBUS_ADAPTER_FILE
     ${CMAKE_CURRENT_BINARY_DIR}/${IVY_XML_FILE}
         src/ivyservice.h
         IvyService
         ".mocuic/ivyadaptor"
 )
-qt5_wrap_cpp(
+qt6_wrap_cpp(
     SERVICE_WRAPPER
         src/ivyservice.h
 )
@@ -39,7 +38,7 @@ set_property(
         SKIP_AUTOGEN ON
 )
 
-qt5_add_resources(
+qt6_add_resources(
     RCC_SOURCES
         src/resources.qrc
 )
@@ -72,8 +71,8 @@ set_target_properties(
 
 target_link_libraries(
     ivy
-        Qt5::DBus
-        Qt5::Widgets
+        Qt6::DBus
+        Qt6::Widgets
 )
 
 install(

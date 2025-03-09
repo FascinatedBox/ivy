@@ -29,16 +29,6 @@ struct option longopts[] = {
     { NULL, 0, NULL, 0 },
 };
 
-QString loadFile(QString path)
-{
-    QFile f(path);
-    f.open(QIODevice::ReadOnly);
-    QString s = f.readAll();
-    f.close();
-
-    return s;
-}
-
 void showHelpAndExit()
 {
     puts(
@@ -73,10 +63,8 @@ int main(int argc, char **argv)
 
     service.registerService();
 
-    if (service.isRegistered()) {
-        app.setStyleSheet(loadFile(":/style.qss"));
+    if (service.isRegistered())
         service.start();
-    }
 
     bool minimized;
     int c, option_index;
